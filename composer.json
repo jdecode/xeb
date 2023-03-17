@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.6",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8"
     },
@@ -69,7 +70,7 @@
             "@php artisan ide-helper:models -n"
         ],
         "parallel-lint": "vendor/bin/parallel-lint app --colors",
-        "phpmd": "vendor/bin/phpmd . text phpmd_ruleset.xml --exclude vendor,_ide_helper.php,database,app/Console/Kernel.php,tests",
+        "phpmd": "vendor/bin/phpmd app text phpmd_ruleset.xml --exclude app/Console/Kernel.php,app/Exceptions/Handler.php",
         "security-checker": "vendor/bin/security-checker security:check",
         "pint": "vendor/bin/pint app",
         "pre-commit": [
