@@ -12,7 +12,6 @@ services:
     restart: always
     ports:
       - "2000:80"
-      - "2001:5173"
     environment:
       APP_NAME: "Web boilerplate"
     networks:
@@ -55,6 +54,22 @@ services:
     networks:
       web-x-network:
         ipv4_address: 200.20.1.4
+
+  web-x-vite:
+      build:
+          context: .
+          dockerfile: Vite.Dockerfile
+      container_name: web-x-vite
+      ports:
+        - "2001:5173"
+      depends_on:
+          - web-x
+      volumes:
+          - .:/var/www/html
+      restart: unless-stopped
+      networks:
+          web-x-network:
+              ipv4_address: 200.20.1.5
 
 # On-disk storage of DB data, when containers are stopped
 volumes:
