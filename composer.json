@@ -1,23 +1,31 @@
 {
-    "name": "laravel/laravel",
+    "name": "jdecode/x-web",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Web-dev boilerplate for 10x developers",
+    "keywords": ["boilerplate", "laravel", "x-web"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8"
+        "doctrine/dbal": "*",
+        "guzzlehttp/guzzle": "^7.5",
+        "laravel/breeze": "*",
+        "laravel/framework": "^10.5.1",
+        "laravel/sanctum": "^3.2.1",
+        "laravel/telescope": "*",
+        "laravel/tinker": "^2.8.1"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0",
+        "barryvdh/laravel-ide-helper": "^2.13",
+        "brainmaestro/composer-git-hooks": "dev-master",
+        "enlightn/security-checker": "^1.10",
+        "fakerphp/faker": "^1.21.0",
+        "laravel/pint": "^1.7",
+        "laravel/sail": "^1.21.3",
+        "mockery/mockery": "^1.5.1",
+        "nunomaduro/collision": "^7.4",
+        "pestphp/pest": "^2.4",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpmd/phpmd": "^2.13",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -45,12 +53,62 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "dev": [
+            "@post-root-package-install",
+            "@putenv CACHE_DRIVER=file",
+            "@post-create-project-cmd",
+            "@php artisan migrate",
+            "chmod -R 777 storage bootstrap",
+            "@cghooks",
+            "@ide-helper"
+        ],
+        "cghooks": "[ -f vendor/bin/cghooks ] && vendor/bin/cghooks update || echo 'cghooks not found'",
+        "ide-helper": [
+            "@php artisan ide-helper:generate -n",
+            "@php artisan ide-helper:meta -n",
+            "@php artisan ide-helper:models -n"
+        ],
+        "phpmd": "vendor/bin/phpmd app text phpmd_ruleset.xml",
+        "security-checker": "vendor/bin/security-checker security:check",
+        "pint": "vendor/bin/pint app tests",
+        "pest": "vendor/bin/pest --stop-on-error --stop-on-failure --parallel --compact",
+        "pre-commit": [
+            "@pint",
+            "@phpmd",
+            "@security-checker"
+        ],
+        "pre-push": [
+            "@pest"
+        ],
+        "post-merge": [
+            "@php artisan migrate",
+            "composer install",
+            "echo \"\nSeed, if in need: \\e[32mphp artisan db:seed\\e[0m\"\n"
         ]
     },
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "hooks": {
+            "config": {
+                "stop-on-failure": [
+                    "pre-commit",
+                    "pre-push"
+                ]
+            },
+            "pre-commit": [
+                "docker-compose exec -T x-web composer run pre-commit"
+            ],
+            "pre-push": [
+                "docker-compose exec -T x-web composer run pre-push"
+            ],
+            "post-merge": [
+                "docker-compose exec -T x-web composer run post-merge"
+            ]
         }
+
     },
     "config": {
         "optimize-autoloader": true,
