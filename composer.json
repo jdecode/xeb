@@ -8,7 +8,7 @@
         "php": "^8.1",
         "doctrine/dbal": "*",
         "guzzlehttp/guzzle": "^7.5",
-        "laravel/breeze": "*",
+        "laravel/breeze": "^1.20",
         "laravel/framework": "^10.5.1",
         "laravel/sanctum": "^3.2.1",
         "laravel/telescope": "*",
@@ -23,7 +23,7 @@
         "laravel/sail": "^1.21.3",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.4",
-        "pestphp/pest": "^2.4",
+        "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "phpmd/phpmd": "^2.13",
         "spatie/laravel-ignition": "^2.0"
