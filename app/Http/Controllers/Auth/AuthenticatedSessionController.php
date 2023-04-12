@@ -39,10 +39,14 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
+        if (Auth::guard('admin')->check()) {
+            $request->session()->regenerate();
+            return redirect(route('home'));
+        }
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect(route('home'));
     }
 }
