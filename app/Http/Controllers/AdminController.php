@@ -35,7 +35,7 @@ class AdminController extends Controller
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
-        return back()->withErrors(
+        return redirect()->route('admin.loginForm')->withErrors(
             [
                 'email' => 'The provided credentials do not match our records.',
             ]
