@@ -12,18 +12,19 @@ Route::prefix('admin')->group(function () {
         return redirect()->route('admin.loginForm');
     })->name('admin');
 
-
-    Route::middleware(['auth:admin'])->group(function () {
-        Route::controller(AdminController::class)->group(function () {
-            Route::get('dashboard', 'dashboard')->name('admin.dashboard');
-            Route::post('logout', 'logout')->name('admin.logout');
+    Route::name('admin.')->group(function () {
+        Route::middleware(['auth:admin'])->group(function () {
+            Route::controller(AdminController::class)->group(function () {
+                Route::get('dashboard', 'dashboard')->name('dashboard');
+                Route::post('logout', 'logout')->name('logout');
+            });
         });
-    });
 
-    Route::middleware(['guest:admin'])->group(function () {
-        Route::controller(AdminController::class)->group(function () {
-            Route::get('login', 'loginForm')->name('admin.loginForm');
-            Route::post('login', 'login')->name('admin.login');
+        Route::middleware(['guest:admin'])->group(function () {
+            Route::controller(AdminController::class)->group(function () {
+                Route::get('login', 'loginForm')->name('loginForm');
+                Route::post('login', 'login')->name('login');
+            });
         });
     });
 });
