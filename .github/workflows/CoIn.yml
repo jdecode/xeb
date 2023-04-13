@@ -28,5 +28,5 @@ jobs:
       - name: Setup dev environment
         run: docker-compose exec -T x-web composer run dev
 
-      - name: Pre-push [Pest/CI]
+      - name: Run test cases
         run: docker-compose exec -T x-web composer run pester
