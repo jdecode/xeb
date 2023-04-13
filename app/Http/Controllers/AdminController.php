@@ -9,16 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function index(): RedirectResponse
-    {
-        return redirect()->route('admin.dashboard');
-    }
-
     public function loginForm(): View|RedirectResponse
     {
-        if (Auth::guard('admin')->check()) {
-            return redirect()->route('admin.dashboard');
-        }
         return view('admin.loginForm');
     }
 
