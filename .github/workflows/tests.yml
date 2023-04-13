@@ -25,5 +25,8 @@ jobs:
       - name: Composer install [manual]
         run: docker-compose exec -T x-web composer install
 
+      - name: Setup dev environment
+        run: docker-compose exec -T x-web composer run dev
+
       - name: Pre-push [Pest/CI]
         run: docker-compose exec -T x-web composer run pre-push
