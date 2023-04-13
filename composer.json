@@ -5,7 +5,7 @@
     "keywords": ["boilerplate", "laravel", "x-web"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "doctrine/dbal": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/breeze": "^1.20",
