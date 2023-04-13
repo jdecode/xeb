@@ -22,5 +22,8 @@ jobs:
       - name: Docker Compose
         run: docker-compose up -d
 
-      - name: Composer install (docker-compose)
+      - name: Composer install [manual]
+        run: docker-compose exec -T x-web composer install
+
+      - name: Pre-push [Pest/CI]
         run: docker-compose exec -T x-web composer run pre-push
