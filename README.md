@@ -7,7 +7,7 @@
 ```
 docker-compose up -d
 ```
-
+_This will take a little while to download the images and build the containers_
 ```
 http://200.20.1.1
 ```
