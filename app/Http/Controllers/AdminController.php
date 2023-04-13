@@ -51,6 +51,11 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
 
+        if (Auth::guard('web')->check()) {
+            $request->session()->regenerate();
+            return redirect(route('admin.loginForm'));
+        }
+
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
