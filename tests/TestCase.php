@@ -12,4 +12,5 @@ abstract class TestCase extends BaseTestCase
      * @var string[]
      */
     public array $admin;
+    public array $web_user;
 }

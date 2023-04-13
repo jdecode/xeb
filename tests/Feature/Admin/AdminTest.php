@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\User;
+use Database\Factories\UserFactory;
 
 beforeEach(function () {
     $this->seed();
@@ -73,3 +75,51 @@ test('invalid credentials', function (array $credentials) {
         'Invalid email and password' => [['email' => 'invalid', 'password' => '']],
     ]
 )->group('admin', 'admin-login-form', 'dataset');
+
+test('Logging out user with web guard does not logout user with admin guard', function () {
+    $this->web_user = [
+        'name' => 'John Doe',
+        'email' => 'johndoe@lbp.dev',
+        'password' => 'password'
+    ];
+    UserFactory::new()->create($this->web_user);
+    $web_user = $this->actingAs(User::first(), 'web')
+        ->get(route('dashboard'));
+    $admin = $this->actingAs(Admin::first(), 'admin')
+        ->get(route('admin.dashboard'));
+    $web_user->assertOk();
+    $admin->assertOk();
+
+    $this->actingAs(User::first(), 'web')
+        ->post(route('logout'));
+
+    $web_user = $this->get(route('dashboard'));
+    $web_user->assertRedirect(route('login'));
+
+    $admin = $this->get(route('admin.dashboard'));
+    $admin->assertOk();
+})->group('admin', 'sessions');
+
+test('Logging out user with admin guard does not logout user with web guard', function () {
+    $this->web_user = [
+        'name' => 'John Doe',
+        'email' => 'johndoe@lbp.dev',
+        'password' => 'password'
+    ];
+    UserFactory::new()->create($this->web_user);
+    $web_user = $this->actingAs(User::first(), 'web')
+        ->get(route('dashboard'));
+    $admin = $this->actingAs(Admin::first(), 'admin')
+        ->get(route('admin.dashboard'));
+    $web_user->assertOk();
+    $admin->assertOk();
+
+    $this->actingAs(Admin::first(), 'admin')
+        ->post(route('admin.logout'));
+
+    $web_user = $this->get(route('dashboard'));
+    $web_user->assertOk();
+
+    $admin = $this->get(route('admin.dashboard'));
+    $admin->assertRedirect(route('admin'));
+})->group('admin', 'sessions');
