@@ -17,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Docker Compose
         run: docker-compose up -d
 
       - name: Composer install [manual]
-        run: docker-compose exec -T x-web composer install
+        run: docker-compose exec -T x-web composer install --prefer-dist
 
       - name: Setup dev environment
         run: docker-compose exec -T x-web composer run dev
