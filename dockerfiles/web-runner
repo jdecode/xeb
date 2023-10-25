@@ -1,5 +1,6 @@
 #!/bin/bash
 
+composer self-update
 composer install
 npm install
 
