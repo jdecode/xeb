@@ -1,1 +1,2 @@
-FROM jdecode/devopsfnl-image:php-8.2
+FROM jdecode/devops:php8.2.11
+
