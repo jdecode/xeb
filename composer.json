@@ -9,13 +9,13 @@
         "doctrine/dbal": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/breeze": "^1.20",
-        "laravel/framework": "^10.5.1",
+        "laravel/framework": "10.*",
         "laravel/pennant": "^1.5",
         "laravel/sanctum": "^3.2.1",
         "laravel/socialite": "^5.6",
         "laravel/telescope": "*",
         "laravel/tinker": "^2.8.1",
-        "livewire/livewire": "^2.12"
+        "livewire/livewire": "3.*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
