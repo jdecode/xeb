@@ -1,3 +1,15 @@
+setup:
+    addons:
+        - plan: heroku-postgresql
+          as: DATABASE
+    stack: container
+    config:
+        APP_ENV: 'staging'
+        APP_DEBUG: 'false'
+        APP_URL: 'https://staging-blog-jdecode-dev-b092d42ffeb9.herokuapp.com'
+        APP_NAME: 'xeb'
+        DB_CONNECTION: 'pgsql'
+        SESSION_LIFETIME: '120'
 build:
   docker:
     web: Heroku.Web.Dockerfile
