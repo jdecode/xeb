@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Sample API
+  description: A sample API with registration, login, and project management
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '201':
+          description: User created successfully
+  /login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+  /projects:
+    get:
+      summary: Get all projects
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project created successfully
+      security:
+        - bearerToken: []
+      
+      
+  /projects/{projectId}:
+    get:
+      summary: Get a specific project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+    put:
+      summary: Update a project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Project updated successfully
+    delete:
+      summary: Delete a project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Project deleted successfully
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: Bearer
+
+security:
+  - bearerToken: []
+
+servers:
+  - url: http://10.10.1.1
+    description: Local
+    variables:
+      version:
+        default: v1
+      bearerToken:
+        default: 'Pg4EFOoye6TY97URccTLmI59wImjal2lUvW3HRokfLYKTCmfJjCeOG2i4TclyF0V'
+
