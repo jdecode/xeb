@@ -9,9 +9,17 @@
     "ms-azuretools.vscode-docker"
   ];
   idx.previews = {
+    enable = true;
     previews = [
       {
-        
+        command = [
+          "docker"
+          "compose"
+          "up"
+          "-d"
+        ];
+        manager = "web";
+        id = "web";
       }
     ];
   };
